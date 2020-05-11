@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+<constant name="struts.devMode" value="false" />
+<constant name="struts.custom.i18n.resources" value="props.messages" />
+
+
+<package name="tp.web.actions"  namespace="/s2" extends="struts-default">
+   
+   <result-types>
+			<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult" />
+		</result-types>
+	
+        <interceptors>
+			<interceptor name="myLoginInterceptor" 
+						 class="tp.web.interceptors.MyLoginInterceptor">
+			</interceptor>
+		</interceptors>
+	
+	<default-action-ref name="welcome"/> 
+    
+    <action name="welcome">
+     	 <!-- <result>/s2-jsp/welcome.jsp</result>-->
+     	 <result type="tiles">welcome_tile</result>
+    </action>
+    
+    <!-- <action name="saisir_tva"> -->
+    <action name="saisir_tva" class="tp.web.actions.CalculTvaAction"
+           method="init" >
+     	  <result type="tiles">tva_input_tile</result>
+    </action>
+    
+      <action name="calculer_tva" class="tp.web.actions.CalculTvaAction" 
+            method="calculer">
+        <!-- <result name="success">/s2-jsp/tva_result.jsp</result>
+        <result name="input">/s2-jsp/tva_input.jsp</result>  -->
+         <result name="success" type="tiles">tva_result_tile</result>
+        <result name="input" type="tiles">tva_input_tile</result>  
+    </action>
+    
+    <!-- class="tp.web.actions.UserCrudAction" sans spring
+         ou bien class="springUserCrudAction" avec spring -->
+    
+		<action name="listUser" method="refreshList" class="springUserCrudAction">
+			<result name="success">/s2-jsp/user_crud.jsp</result>
+		</action>
+		<action name="selectUserToEdit" method="selectToEdit" class="springUserCrudAction">
+			<result name="success">/s2-jsp/user_crud.jsp</result>
+		</action>
+		  <action name="saveOrUpdateUser" method="saveOrUpdate" class="springUserCrudAction">
+			<result name="success" type="redirect">listUser</result>
+		</action>
+		<action name="deleteUser" method="delete" class="springUserCrudAction">
+			<result name="success" type="redirect">listUser</result>
+		</action>
+		
+		<action name="ListeProduitsForCaddy" method="loadListeProduits" class="tp.web.actions.CaddyAction">
+		      <interceptor-ref name="defaultStack"/> <!-- liste d'intercepteurs par defaut -->
+	  		  <interceptor-ref name="myLoginInterceptor"/>
+			<result name="success">/s2-jsp/add_in_caddy.jsp</result>
+			<result name="redirect_to_saisir_inscription" type="redirect">saisir_inscription</result>
+		</action>
+		
+		<action name="addProdSelectionInCaddy" method="ajouterDansCaddy" class="tp.web.actions.CaddyAction">
+			<result name="success">/s2-jsp/add_in_caddy.jsp</result>
+		</action>
+		
+		<action name="listerContenuCaddy" method="listerContenuCaddy" class="tp.web.actions.CaddyAction">
+			<result name="success">/s2-jsp/display_caddy_content.jsp</result>
+		</action>
+		
+		<action name="saisir_inscription" >
+       		<result>/s2-jsp/inscription.jsp</result>
+        </action>
+    
+      <action name="inscrire_utilisateur" class="tp.web.actions.InscriptionAction" 
+            method="inscrire">
+        <result name="success" >/s2-jsp/inscription_result.jsp</result>
+        <result name="SUCCESS" >/s2-jsp/inscription_result.jsp</result>
+        <result name="input">/s2-jsp/inscription.jsp</result>  
+    </action>
+</package>   
+</struts>

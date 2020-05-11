@@ -1,0 +1,93 @@
+<!DOCTYPE validators PUBLIC 
+  		"-//Apache Struts//XWork Validator 1.0.2//EN"
+  		"http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+
+<validators>
+
+
+   <field name="id">
+        <field-validator type="required">
+			<message><![CDATA[ id is required ]]></message>
+		</field-validator>
+		<field-validator type="long">
+			<param name="min">0</param>
+			<message><![CDATA[must be positive ]]></message>
+		</field-validator>
+	</field>
+	
+	<field name="age">
+	    <field-validator type="required">
+			<message><![CDATA[ age is required ]]></message>
+		</field-validator>
+	   <!-- field-validator type="conversion" est declenche si "abc" au lieu d'une valeur numerique -->
+		<!-- <field-validator type="conversion">
+			<message><![CDATA[not an integer !]]></message>
+		</field-validator>	-->
+		<!-- key ="invalid.fieldvalue.age" par défaut et si pas trouvé : invalid field for age-->
+		<!-- <field-validator type="conversion">
+			<message key ="invalid.fieldvalue.age"/> 
+		</field-validator> -->
+		<field-validator type="int">
+			<param name="min">0</param>
+			<param name="max">150</param>
+			<message><![CDATA[must be beetween 0 and 150 ]]></message>
+		</field-validator>
+	</field>
+
+	<field name="pseudo">
+	    <field-validator type="requiredstring">
+			<message><![CDATA[ pseudo is required ]]></message>
+		</field-validator>
+		<field-validator type="stringlength">
+		  <param name="minLength">3</param>
+		  <message><![CDATA[ at least 3 characters ]]></message>
+		</field-validator>
+
+	</field>
+	 
+	<field name="email">
+	    <field-validator type="requiredstring">
+			<message><![CDATA[ email is required ]]></message>
+		</field-validator>
+		<field-validator type="email">
+		    <!-- <message><![CDATA[ email invalide ]]></message> -->
+			<message key="inscription.erreur.validate.mail" />
+		</field-validator>
+	</field>
+
+	<field name="codePostal">
+	   <field-validator type="requiredstring">
+			<message><![CDATA[ codePostal is required ]]></message>
+		</field-validator>
+		<field-validator type="regex">
+			<param name="expression">^\d{5}$</param>
+			<!-- <message><![CDATA[ codePostal invalide (doit avoir 5 chiffres) ]]></message> -->
+			<message key="inscription.erreur.validate.codePostal" />
+		</field-validator>
+	</field>
+	
+	<field name="numeroEtRue">
+	    <field-validator type="requiredstring">
+			<message><![CDATA[ numeroEtRue is required ]]></message>
+		</field-validator>
+	</field>
+	
+	<field name="ville">
+	    <field-validator type="requiredstring">
+			<message><![CDATA[ ville is required ]]></message>
+		</field-validator>
+	</field>
+
+	<field name="dateInscription">
+	<field-validator type="required">
+			<message><![CDATA[ dateInscription is required ]]></message>
+		</field-validator>
+	<field-validator type="date">
+		<param name="min">01/01/2017</param>
+		<param name="max">31/12/2020</param>
+		<!-- <message><![CDATA[ date invalide (doit etre entre 01/01/2017 et 31/12/2020) ]]></message> -->
+		<message key="inscription.erreur.validate.dateInscription" />
+	</field-validator>
+	</field>
+ 
+</validators>
